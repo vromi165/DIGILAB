@@ -1,4 +1,4 @@
-[Digilab_vromi165.json](https://github.com/user-attachments/files/23839635/Digilab_vromi165.json)# DIGILAB - Node-RED LCD Clock
+# DIGILAB - Node-RED LCD Clock
 
 This project demonstrates a **digital clock** displayed on a character-based **I2C LCD** connected to a Raspberry Pi, using **Node-RED** to automate updates. The clock updates every minute and can be extended for additional features like date, weather, or custom messages.
 
@@ -13,120 +13,85 @@ This project demonstrates a **digital clock** displayed on a character-based **I
 
 ---
 
-## Node-RED Flow Overview
+## Node-RED Flow
 
-The Node-RED flow handles:
+The flow triggers every minute, formats the current time as `HH:MM`, and sends it to the LCD using the Python script `write.py`.
 
-1. **Inject Node:** Triggers every minute to update the clock.
-2. **Function Node:** Formats the current time into `HH:MM`.
-3. **Exec Node:** Calls the Python script (`write.py`) to write the time to the LCD.
-4. **Debug Nodes:** Monitor `stdout` and `stderr` for troubleshooting.
+**Flow JSON:** You can download and import the Node-RED flow from:
 
-**Node red flow:**
+[clock_flow.json](./clock_flow.json)
 
-[Uploadi[
-    {
-        "id": "5b0441296d355d95",
-        "type": "tab",
-        "label": "Clock digilab",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "inject_clock",
-        "type": "inject",
-        "z": "5b0441296d355d95",
-        "name": "Trigger Every Minute",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "60",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "payload": "",
-        "payloadType": "date",
-        "x": 300,
-        "y": 360,
-        "wires": [
-            [
-                "function_format_time"
-            ]
-        ]
-    },
-    {
-        "id": "function_format_time",
-        "type": "function",
-        "z": "5b0441296d355d95",
-        "name": "Format Time",
-        "func": "var date = new Date();\nvar hours = date.getHours();\nvar minutes = date.getMinutes();\nif(hours < 10) { hours = '0' + hours; }\nif(minutes < 10) { minutes = '0' + minutes; }\nmsg.payload = hours + ':' + minutes;\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 520,
-        "y": 360,
-        "wires": [
-            [
-                "exec_lcd"
-            ]
-        ]
-    },
-    {
-        "id": "exec_lcd",
-        "type": "exec",
-        "z": "5b0441296d355d95",
-        "command": "/usr/bin/python3 /home/admin/lcd/write.py --line 1 --message",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "name": "Write to LCD",
-        "x": 750,
-        "y": 360,
-        "wires": [
-            [
-                "debug_stdout"
-            ],
-            [
-                "debug_stderr"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "debug_stdout",
-        "type": "debug",
-        "z": "5b0441296d355d95",
-        "name": "stdout",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 980,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "debug_stderr",
-        "type": "debug",
-        "z": "5b0441296d355d95",
-        "name": "stderr",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 980,
-        "y": 360,
-        "wires": []
-    }
-]ng Digilab_vromi165.json…]()
+> ⚠️ Make sure your Python scripts are located in `/home/admin/lcd/` and are executable.
 
+---
+
+## Hardware Requirements
+
+- Raspberry Pi with GPIO pins  
+- I2C Character LCD (16x2 or 20x4) with PCF8574 backpack  
+- Jumper wires to connect LCD to Pi  
+
+**Connections:**
+
+| LCD Pin | Raspberry Pi Pin |
+|---------|----------------|
+| SDA     | GPIO 2          |
+| SCL     | GPIO 3          |
+| VCC     | 5V              |
+| GND     | GND             |
+
+---
+
+## Software Requirements
+
+- Raspberry Pi OS (or compatible Linux)  
+- Python 3  
+- `python3-smbus` library  
+- Node-RED installed on Raspberry Pi  
+- I2C enabled via `raspi-config`
+
+---
+
+## Python Scripts
+
+Place these scripts in `/home/admin/lcd/`:
+
+- `base.py` – handles low-level LCD communication  
+- `init.py` – initializes and clears the LCD  
+- `write.py` – writes text to a specific line  
+- `backlight.py` – controls the backlight  
+- `cursor.py` – controls cursor visibility, blink, and display  
+
+---
+
+## Usage
+
+1. Connect your LCD and enable I2C on the Raspberry Pi.  
+2. Place Python scripts in `/home/admin/lcd/`.  
+3. Import the Node-RED flow (`clock_flow.json`).  
+4. Deploy the flow — the LCD will display the current time, updating every minute.  
+5. Optional: extend the flow to show seconds, date, or other dynamic content.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. See [LICENSE](https://github.com/vromi165/DIGILAB/blob/main/LICENSE) for details.
+
+---
+
+## Project Planning
+
+View the project planning and progress here: [DIGILAB Project Board](https://github.com/users/vromi165/projects/2)
+
+---
+
+## Contributing
+
+Feel free to fork the repository, improve the flow or scripts, and submit pull requests.
+
+---
+
+## Contact
+
+Created by [vromi165](https://github.com/vromi165)

@@ -20,8 +20,6 @@ The flow triggers every minute, formats the current time as `HH:MM`, and sends i
 **Flow JSON:** :
 
 
-> ⚠️ Make sure your Python scripts are located in `/home/admin/lcd/` and are executable.
-
 ---
 
 ## Hardware Requirements

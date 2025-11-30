@@ -17,9 +17,8 @@ This project demonstrates a **digital clock** displayed on a character-based **I
 
 The flow triggers every minute, formats the current time as `HH:MM`, and sends it to the LCD.
 
-**Flow JSON:** You can download and import the Node-RED flow from:
+**Flow JSON:** :
 
-[clock_flow.json](./clock_flow.json)
 
 > ⚠️ Make sure your Python scripts are located in `/home/admin/lcd/` and are executable.
 

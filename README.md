@@ -19,17 +19,9 @@ The flow triggers every minute, formats the current time as `HH:MM`, and sends i
 
 **Flow JSON:** :
 
+https://github.com/vromi165/DIGILAB/blob/main/clock_flow.txt
 
 ---
-
-## Hardware Requirements
-
-- Raspberry Pi with GPIO pins  
-- I2C Character LCD (16x2 or 20x4) with PCF8574 backpack  
-- Jumper wires to connect LCD to Pi  
-
----
-
 
 ## License
 
